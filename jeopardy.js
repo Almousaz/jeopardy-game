@@ -224,8 +224,35 @@ async function getCategoryData(categoryId) {
     clues: [], // todo set after fetching
   };
 
-  // todo fetch the category with NUMBER_OF_CLUES_PER_CATEGORY amount of clues
+    // todo fetch the category with NUMBER_OF_CLUES_PER_CATEGORY amount of clues
+    // Fetch the category data from the API, including its clues.
+    const response = await axios.get(`https://rithm-jeopardy.herokuapp.com/api/category?id=${categoryId}`
+    );
 
+    // Extract the data from the response
+    const categoryData = await response.data;
+    // Set category title
+    // Assign the fetched category title to the categoryWithClues object.
+    categoryWithClues.title = categoryData.title;
+
+    
+  // Filter, limit, and process clues
+  categoryWithClues.clues = categoryData.clues
+  .filter(function (clue) {
+    // Only include clues that have a non-null value.
+    return clue.value !== null;
+  })
+  // Limit the number of clues to the defined constant.
+  .slice(0, NUMBER_OF_CLUES_PER_CATEGORY)
+  .map((clue) => ({
+    id: clue.id,
+    value: clue.value !== null ? clue.value : 100, // Assign 100 if value is null
+    question: clue.question,
+    answer: clue.answer,
+  }));
+
+
+  // Return the processed category data with clues.
   return categoryWithClues;
 }
 
