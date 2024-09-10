@@ -166,10 +166,32 @@ async function setupTheGame() {
  * - Request as many categories as possible, such as 100. Randomly pick as many categories as given in the `NUMBER_OF_CATEGORIES` constant, if the number of clues in the category is enough (<= `NUMBER_OF_CLUES` constant).
  */
 async function getCategoryIds() {
-  const ids = []; // todo set after fetching
 
-  // todo fetch NUMBER_OF_CATEGORIES amount of categories
+  // Initialize an empty array to store category IDs.
+  const ids = []; 
+  // Fetch the list of all categories from the API.
+  const response = await axios.get(`${API_URL}categories`);
+  // Store the list of categories from the API response.
+  const categoryList = response.data;
+  const filteredCategories = categoryList.filter(function (category) {
+    return category.clues_count >= NUMBER_OF_CLUES_PER_CATEGORY;
+  });
+  // Randomly select NUMBER_OF_CATEGORIES
+  const selectedCategories = [];
 
+  for (let i = 0; i < NUMBER_OF_CATEGORIES && filteredCategories.length > 0; i++ ) {
+    // Select a random index from the filtered categories.
+    const randomIndex = Math.floor(Math.random() * filteredCategories.length);
+    // Add the randomly selected category ID to the array.
+    selectedCategories.push(filteredCategories[randomIndex].id);
+    // Remove the selected category from the list to avoid duplicates.
+    filteredCategories.splice(randomIndex, 1); 
+  }
+
+  // Assign selected category IDs to the ids array
+  ids.push(...selectedCategories);
+
+  //  Return the array of selected category IDs
   return ids;
 }
 
