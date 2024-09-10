@@ -95,6 +95,15 @@ $("#play").on("click", handleClickOfPlay);
 function handleClickOfPlay ()
 {
   // todo set the game up if the play button is clickable
+
+  const buttonClicked = document.getElementById("play");
+
+  if (isPlayButtonClickable) {
+    isPlayButtonClickable = false;
+    buttonClicked.textContent = "Setting up the Game ...";
+    setupTheGame();
+  }
+
 }
 
 /**
