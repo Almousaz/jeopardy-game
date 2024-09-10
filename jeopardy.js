@@ -270,6 +270,47 @@ async function getCategoryData(categoryId) {
  */
 function fillTable(categories) {
   // todo
+  // Get the table head and body elements
+  const tableHead = document.getElementById("categories");
+  const tableBody = document.getElementById("clues");
+
+  // Clear any existing content in the table head and body to reset the table
+
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
+
+  // Create a table header cell (th) for each category
+  categories.forEach((category) => {
+    // Create a new table header element
+    const th = document.createElement("th");
+    // Set the text content to the category title
+    th.textContent = category.title;
+    // Append the header element to the table head
+    tableHead.appendChild(th);
+  });
+
+  // Create a table body cell (td) for each category
+  categories.forEach((category) => {
+    // Create a new table cell element
+    const td = document.createElement("td");
+    // Append the table cell to the table body
+    tableBody.appendChild(td);
+
+    // Create a table row for each clue in the category
+    category.clues.forEach((clue) => {
+      // Create a new table row element
+      const tr = document.createElement("tr");
+      // Set the row's ID to a unique combination of category and clue ID
+      tr.id = `category-${category.id}-clue-${clue.id}`;
+      // Set the text content to the clue's value (in dollars)
+      tr.textContent = `$${clue.value}`;
+      // Add an event listener to handle clue clicks
+      tr.addEventListener("click", handleClickOfClue);
+      // Append the row element to the table cell
+      td.appendChild(tr);
+    });
+  });
+
 }
 
 $(".clue").on("click", handleClickOfClue);
