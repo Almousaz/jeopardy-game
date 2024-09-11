@@ -21,3 +21,99 @@
 {
   text-decoration: line-through;
 }
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+
+
+table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  /* border-collapse: collapse; */
+  /* background-color: #fff; */
+  /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
+}
+
+/* Category Headers */
+#categories th {
+  background-color: #266ef4;
+  color: #fff;
+  padding: 15px;
+  font-size: 1.2em;
+}
+
+/* Clue Box Styling */
+#clues td {
+  /* border: 2px solid #363636; */
+  padding: 20px;
+  text-align: center;
+  background-color: #02964a;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: background-color 0.3s ease;
+}
+
+
+
+/* Viewed Clue Styling */
+.viewed {
+  text-decoration: line-through;
+  color: #ddd;
+}
+
+/* Active Clue Display */
+#active-clue {
+  margin-top: 20px;
+  padding: 30px;
+  background-color: #266ef4;
+  color: #fff;
+  font-size: 1.5em;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* transition: background-color 0.3s ease; */
+}
+
+
+
+/* Spinner */
+#spinner {
+  margin: 20px auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #115ff4;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Play Button */
+#play {
+  background-color: #266ef4;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+
+
