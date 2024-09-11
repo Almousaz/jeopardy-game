@@ -166,9 +166,8 @@ async function setupTheGame() {
  * - Request as many categories as possible, such as 100. Randomly pick as many categories as given in the `NUMBER_OF_CATEGORIES` constant, if the number of clues in the category is enough (<= `NUMBER_OF_CLUES` constant).
  */
 async function getCategoryIds() {
-
   // Initialize an empty array to store category IDs.
-  const ids = []; 
+  const ids = [];
   // Fetch the list of all categories from the API.
   const response = await axios.get(`${API_URL}categories`);
   // Store the list of categories from the API response.
@@ -179,13 +178,17 @@ async function getCategoryIds() {
   // Randomly select NUMBER_OF_CATEGORIES
   const selectedCategories = [];
 
-  for (let i = 0; i < NUMBER_OF_CATEGORIES && filteredCategories.length > 0; i++ ) {
+  for (
+    let i = 0;
+    i < NUMBER_OF_CATEGORIES && filteredCategories.length > 0;
+    i++
+  ) {
     // Select a random index from the filtered categories.
     const randomIndex = Math.floor(Math.random() * filteredCategories.length);
     // Add the randomly selected category ID to the array.
     selectedCategories.push(filteredCategories[randomIndex].id);
     // Remove the selected category from the list to avoid duplicates.
-    filteredCategories.splice(randomIndex, 1); 
+    filteredCategories.splice(randomIndex, 1);
   }
 
   // Assign selected category IDs to the ids array
@@ -224,33 +227,32 @@ async function getCategoryData(categoryId) {
     clues: [], // todo set after fetching
   };
 
-    // todo fetch the category with NUMBER_OF_CLUES_PER_CATEGORY amount of clues
-    // Fetch the category data from the API, including its clues.
-    const response = await axios.get(`https://rithm-jeopardy.herokuapp.com/api/category?id=${categoryId}`
-    );
+  // todo fetch the category with NUMBER_OF_CLUES_PER_CATEGORY amount of clues
+  // Fetch the category data from the API, including its clues.
+  const response = await axios.get(
+    `https://rithm-jeopardy.herokuapp.com/api/category?id=${categoryId}`
+  );
 
-    // Extract the data from the response
-    const categoryData = await response.data;
-    // Set category title
-    // Assign the fetched category title to the categoryWithClues object.
-    categoryWithClues.title = categoryData.title;
+  // Extract the data from the response
+  const categoryData = await response.data;
+  // Set category title
+  // Assign the fetched category title to the categoryWithClues object.
+  categoryWithClues.title = categoryData.title;
 
-    
   // Filter, limit, and process clues
   categoryWithClues.clues = categoryData.clues
-  .filter(function (clue) {
-    // Only include clues that have a non-null value.
-    return clue.value !== null;
-  })
-  // Limit the number of clues to the defined constant.
-  .slice(0, NUMBER_OF_CLUES_PER_CATEGORY)
-  .map((clue) => ({
-    id: clue.id,
-    value: clue.value !== null ? clue.value : 100, // Assign 100 if value is null
-    question: clue.question,
-    answer: clue.answer,
-  }));
-
+    .filter(function (clue) {
+      // Only include clues that have a non-null value.
+      return clue.value !== null;
+    })
+    // Limit the number of clues to the defined constant.
+    .slice(0, NUMBER_OF_CLUES_PER_CATEGORY)
+    .map((clue) => ({
+      id: clue.id,
+      value: clue.value !== null ? clue.value : 100, // Assign 100 if value is null
+      question: clue.question,
+      answer: clue.answer,
+    }));
 
   // Return the processed category data with clues.
   return categoryWithClues;
@@ -310,7 +312,6 @@ function fillTable(categories) {
       td.appendChild(tr);
     });
   });
-
 }
 
 $(".clue").on("click", handleClickOfClue);
@@ -327,7 +328,6 @@ $(".clue").on("click", handleClickOfClue);
  *
  */
 function handleClickOfClue(event) {
-
   // todo find and remove the clue from the categories
 
   // Get the clicked element
@@ -340,7 +340,6 @@ function handleClickOfClue(event) {
   // Get the clue ID (fourth part of the ID)
   const clueId = parseInt(idParts[3], 10);
 
-  
   // Find the category and the specific clue based on the IDs
   const category = categories.find((c) => c.id === categoryId);
   const clue = category?.clues.find((c) => c.id === clueId);
@@ -357,7 +356,7 @@ function handleClickOfClue(event) {
   }
 
   // todo mark clue as viewed (you can use the class in style.css), display the question at #active-clue
-  
+
   // Mark the clue as viewed
   clickedElement.classList.add("viewed");
 
@@ -366,14 +365,6 @@ function handleClickOfClue(event) {
 
   // Update the mode
   activeClueMode = 1;
-
-
-
-  
-
-
-
-  
 }
 
 $("#active-clue").on("click", handleClickOfActiveClue);
@@ -389,21 +380,26 @@ $("#active-clue").on("click", handleClickOfActiveClue);
  * - Don't forget to update the `activeClueMode` variable.
  */
 function handleClickOfActiveClue(event) {
-  // todo display answer if displaying a question
-
   // todo clear if displaying an answer
   // todo after clear end the game when no clues are left
 
+  // todo display answer if displaying a question
   if (activeClueMode === 1) {
+    // Switch to answer mode
     activeClueMode = 2;
+    // Display the answer in the HTML element
+    // display answer if displaying a question
     $("#active-clue").html(activeClue.answer);
   } else if (activeClueMode === 2) {
     activeClueMode = 0;
+    // Clear the clue display
     $("#active-clue").html(null);
-
+    // Check if the game should end (if no more categories or clues are left)
     if (categories.length === 0) {
+      //  Enable the play button for restarting
       isPlayButtonClickable = true;
       $("#play").text("Restart the Game!");
+      // end the game when no clues are left
       $("#active-clue").html("The End!");
     }
   }
