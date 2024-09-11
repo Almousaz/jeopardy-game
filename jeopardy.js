@@ -327,8 +327,53 @@ $(".clue").on("click", handleClickOfClue);
  *
  */
 function handleClickOfClue(event) {
+
   // todo find and remove the clue from the categories
+
+  // Get the clicked element
+  const clickedElement = event.target;
+
+  // Extract ID parts (category and clue IDs) from the clicked element's ID and convert them to numbers
+  const idParts = clickedElement.id.split("-");
+  // Get the category ID (second part of the ID)
+  const categoryId = parseInt(idParts[1], 10);
+  // Get the clue ID (fourth part of the ID)
+  const clueId = parseInt(idParts[3], 10);
+
+  
+  // Find the category and the specific clue based on the IDs
+  const category = categories.find((c) => c.id === categoryId);
+  const clue = category?.clues.find((c) => c.id === clueId);
+
+  if (!clue) return; // Exit if clue not found
+
+  // Set the active clue and remove it from the list
+  activeClue = clue;
+  category.clues = category.clues.filter((c) => c.id !== clueId);
+
+  // Remove the category if no clues left
+  if (category.clues.length === 0) {
+    categories = categories.filter((c) => c.id !== categoryId);
+  }
+
   // todo mark clue as viewed (you can use the class in style.css), display the question at #active-clue
+  
+  // Mark the clue as viewed
+  clickedElement.classList.add("viewed");
+
+  // Display the question
+  document.getElementById("active-clue").textContent = activeClue.question;
+
+  // Update the mode
+  activeClueMode = 1;
+
+
+
+  
+
+
+
+  
 }
 
 $("#active-clue").on("click", handleClickOfActiveClue);
