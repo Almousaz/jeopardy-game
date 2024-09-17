@@ -85,6 +85,10 @@ let isPlayButtonClickable = true; // Only clickable when the game haven't starte
 
 $("#play").on("click", handleClickOfPlay);
 
+// const playButton = document.querySelector("#play");
+// playButton.addEventListener("click", handleClickOfPlay);
+
+
 /**
  * Manages the behavior of the play button (start or restart) when clicked.
  * Sets up the game.
@@ -94,13 +98,17 @@ $("#play").on("click", handleClickOfPlay);
  */
 function handleClickOfPlay() {
   // todo set the game up if the play button is clickable
-
   const buttonClicked = document.getElementById("play");
 
-  if (isPlayButtonClickable) {
+  // If button is clickable, disable it and update text
+  if (isPlayButtonClickable === true) {
+
     isPlayButtonClickable = false;
+    // Change the text content of the play button to indicate the game is being set up
     buttonClicked.textContent = "Setting up the Game ...";
+    // Call the function to set up the game
     setupTheGame();
+
   }
 }
 
@@ -154,7 +162,7 @@ async function setupTheGame() {
   hideSpiner.style.display = "none";
 
   // Enable the play button
-  isPlayButtonClickable = true;
+  // isPlayButtonClickable = true;
 }
 
 /**
@@ -280,23 +288,25 @@ function fillTable(categories) {
 
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
+  console.log(categories);
 
   // Create a table header cell (th) for each category
   categories.forEach((category) => {
     // Create a new table header element
-    const th = document.createElement("th");
+    const tHead = document.createElement("th");
     // Set the text content to the category title
-    th.textContent = category.title;
+    tHead.textContent = category.title;
+    
     // Append the header element to the table head
-    tableHead.appendChild(th);
+    tableHead.appendChild(tHead);
   });
 
   // Create a table body cell (td) for each category
   categories.forEach((category) => {
     // Create a new table cell element
-    const td = document.createElement("td");
+    const tCell = document.createElement("td");
     // Append the table cell to the table body
-    tableBody.appendChild(td);
+    tableBody.appendChild(tCell);
 
     // Create a table row for each clue in the category
     category.clues.forEach((clue) => {
@@ -309,7 +319,7 @@ function fillTable(categories) {
       // Add an event listener to handle clue clicks
       tr.addEventListener("click", handleClickOfClue);
       // Append the row element to the table cell
-      td.appendChild(tr);
+      tCell.appendChild(tr);
     });
   });
 }
@@ -332,6 +342,7 @@ function handleClickOfClue(event) {
 
   // Get the clicked element
   const clickedElement = event.target;
+  console.log(clickedElement)
 
   // Extract ID parts (category and clue IDs) from the clicked element's ID and convert them to numbers
   const idParts = clickedElement.id.split("-");
