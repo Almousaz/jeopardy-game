@@ -88,7 +88,6 @@ $("#play").on("click", handleClickOfPlay);
 // const playButton = document.querySelector("#play");
 // playButton.addEventListener("click", handleClickOfPlay);
 
-
 /**
  * Manages the behavior of the play button (start or restart) when clicked.
  * Sets up the game.
@@ -102,13 +101,11 @@ function handleClickOfPlay() {
 
   // If button is clickable, disable it and update text
   if (isPlayButtonClickable === true) {
-
     isPlayButtonClickable = false;
     // Change the text content of the play button to indicate the game is being set up
     buttonClicked.textContent = "Setting up the Game ...";
     // Call the function to set up the game
     setupTheGame();
-
   }
 }
 
@@ -162,7 +159,7 @@ async function setupTheGame() {
   hideSpiner.style.display = "none";
 
   // Enable the play button
-  // isPlayButtonClickable = true;
+  isPlayButtonClickable = true;
 }
 
 /**
@@ -296,7 +293,7 @@ function fillTable(categories) {
     const tHead = document.createElement("th");
     // Set the text content to the category title
     tHead.textContent = category.title;
-    
+
     // Append the header element to the table head
     tableHead.appendChild(tHead);
   });
@@ -342,12 +339,14 @@ function handleClickOfClue(event) {
 
   // Get the clicked element
   const clickedElement = event.target;
-  console.log(clickedElement)
+  console.log(clickedElement);
 
   // Extract ID parts (category and clue IDs) from the clicked element's ID and convert them to numbers
   const idParts = clickedElement.id.split("-");
+  console.log(idParts);
   // Get the category ID (second part of the ID)
   const categoryId = parseInt(idParts[1], 10);
+  console.log(categoryId);
   // Get the clue ID (fourth part of the ID)
   const clueId = parseInt(idParts[3], 10);
 
